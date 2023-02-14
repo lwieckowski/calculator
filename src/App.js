@@ -5,30 +5,56 @@ function App() {
     <div id="app-container">
       <div>
         <div id="display">00000000</div>
-        <div id="key-container">
-          <div className="key dark-grey">C</div>
-          <div className="key dark-grey">&plusmn;</div>
-          <div className="key dark-grey">%</div>
-          <div className="key orange">&divide;</div>
-          <div className="key light-grey">7</div>
-          <div className="key light-grey">8</div>
-          <div className="key light-grey">9</div>
-          <div className="key orange">&times;</div>
-          <div className="key light-grey">4</div>
-          <div className="key light-grey">5</div>
-          <div className="key light-grey">6</div>
-          <div className="key orange">-</div>
-          <div className="key light-grey">1</div>
-          <div className="key light-grey">2</div>
-          <div className="key light-grey">3</div>
-          <div className="key orange">+</div>
-          <div className="key light-grey" id="key-0">0</div>
-          <div className="key light-grey">.</div>
-          <div className="key orange">=</div>
+        <div id="keypad">
+          <FunctionKey>C</FunctionKey>
+          <FunctionKey>&plusmn;</FunctionKey>
+          <FunctionKey>%</FunctionKey>
+          <OperatorKey>&divide;</OperatorKey>
+          <NumericKey>7</NumericKey>
+          <NumericKey>8</NumericKey>
+          <NumericKey>9</NumericKey>
+          <OperatorKey>&times;</OperatorKey>
+          <NumericKey>4</NumericKey>
+          <NumericKey>5</NumericKey>
+          <NumericKey>6</NumericKey>
+          <OperatorKey>-</OperatorKey>
+          <NumericKey>1</NumericKey>
+          <NumericKey>2</NumericKey>
+          <NumericKey>3</NumericKey>
+          <OperatorKey>+</OperatorKey>
+          <NumericKeyZero>0</NumericKeyZero>
+          <NumericKey>.</NumericKey>
+          <OperatorKey>=</OperatorKey>
         </div>
       </div>
     </div>
   );
 }
+
+function OperatorKey(props) {
+  return (
+    <div className="key orange">{props.children}</div>
+  );
+}
+
+function FunctionKey(props) {
+  return (
+    <div className="key dark-grey">{props.children}</div>
+  );
+}
+
+function NumericKey(props) {
+  return (
+    <div className="key light-grey">{props.children}</div>
+  );
+}
+
+function NumericKeyZero(props) {
+    return (
+      <div className="key light-grey" id="key-0">{props.children}</div>
+    );
+}
+
+
 
 export default App;
