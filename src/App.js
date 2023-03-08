@@ -4,7 +4,7 @@ function App() {
   return (
     <div id="app-container">
       <div>
-        <div id="display">00000000</div>
+        <input id="display" disabled></input>
         <div id="keypad">
           <FunctionKey>C</FunctionKey>
           <FunctionKey>&plusmn;</FunctionKey>

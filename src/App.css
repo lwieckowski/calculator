@@ -5,13 +5,15 @@
   height: 100%;
 }
 
+input {
+  all: unset;
+}
+
 #display {
   box-sizing: border-box;
-  display: flex;
   background-color: #1C191C;
   color: white;
-  justify-content: right;
-  align-items: center;
+  text-align: right; 
   font-size: 4em;
   padding-right: 24px;
   width: 320px;
