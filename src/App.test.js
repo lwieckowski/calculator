@@ -24,3 +24,19 @@ describe('user can see a display', () => {
   });
 
 });
+
+describe('user can see a keypad', () => {
+  
+  test('with all calculator keys', () => {
+    render(<App />);
+    const keyNames = [
+      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+      'C', '±', '%', '÷', '×', '-', '+', '=', '.'
+    ]
+    for (const keyName of keyNames) {
+      const key = screen.getByRole('button', {name: keyName});
+      expect(key).toBeInTheDocument();
+    }
+  });
+
+});

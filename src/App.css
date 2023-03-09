@@ -38,6 +38,12 @@ input {
   border: 1px solid #1c191c41;
 }
 
+.key[name="0"] {
+  grid-column: 1 / 3;
+  justify-content: left;
+  padding-left: calc(40px - 0.5ch);
+}
+
 .orange {
   background-color: #FC9A17;
 }
@@ -48,10 +54,4 @@ input {
 
 .light-grey {
   background-color: #E0E0E7;
-}
-
-#key-0 {
-  grid-column: 1 / 3;
-  justify-content: left;
-  padding-left: calc(40px - 0.5ch);
 }
