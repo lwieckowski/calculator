@@ -3,31 +3,21 @@ import userEvent from "@testing-library/user-event";
 import App from './App';
 
 describe('Calculator display', () => {
-  
-  test('shows the current number entered or the last result', () => {
-    render(<App />);
-    const currentValue = '00000001';
-    const display = screen.getByRole('textbox', { id: "display"});
-    fireEvent.change(display, {'target': {'value': currentValue}});
-    expect(display).toBeInTheDocument();
-    expect(display).toHaveValue(currentValue);
-  });
 
-  test('is read only', () => {
+  test('is shown and is read-only', () => {
     render(<App />);
-    const displayValue = '12345678';
     const userInput = '5';
-    const display = screen.getByRole('textbox', { id: "display"});
-    fireEvent.change(display, {'target': {'value': displayValue}});
+    const display = screen.getByRole('textbox', { id: "display" });
+    const currentValue = display.value;
     userEvent.type(display, userInput);
-    expect(display).toHaveValue(displayValue);
+    expect(display).toHaveValue(currentValue);
   });
 
 });
 
 describe('Calculator keypad', () => {
   
-  test('has all required keys', () => {
+  test('is shown and has all required keys', () => {
     render(<App />);
     const keyNames = [
       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -41,14 +31,24 @@ describe('Calculator keypad', () => {
 
 });
 
-  describe('Calculator usage', () => {
+describe('Calculator usage', () => {
 
-  test('user can click on key 0 and it will show up on display', () => {
-    render(<App />);
-    const display = screen.getByRole('textbox', { id: "display"});
-    const key = screen.getByRole('button', {name: "0"});
-    userEvent.click(key);
-    expect(display).toHaveValue("0");
+  const numericKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+
+  describe('when display is empty', () => {
+    for (const key of numericKeys) {
+      test(`user can click on key ${key} and it will show up on display`, () => {
+        testNumericKeyClick(key);
+      });
+    }
   });
+
+  const testNumericKeyClick = (keyName) => {
+    render(<App />);
+    const key = screen.getByRole('button', {name: keyName});
+    userEvent.click(key);
+    const display = screen.getByRole('textbox', { id: "display"});
+    expect(display).toHaveValue(keyName);
+  }
 
 });
