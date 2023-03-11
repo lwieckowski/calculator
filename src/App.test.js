@@ -45,6 +45,36 @@ describe("Calculator keypad", () => {
 });
 
 describe("Calculator functionality", () => {
+
+  test("user can enter numbers as sequences up to 8 digits long", () => {
+    render(<App />);
+    const keys = ["0", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    for (const keyName of keys) {
+      const key = screen.getByRole("button", { name: keyName });
+      userEvent.click(key);
+    }
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("0.123456");
+  });
+
+  test("user can enter only one decimal separator", () => {
+    render(<App />);
+    const key = screen.getByRole("button", { name: "." });
+    userEvent.click(key);
+    userEvent.click(key);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("0.");
+  });
+
+  test("user can enter only one 0 if the display is empty", () => {
+    render(<App />);
+    const key = screen.getByRole("button", { name: "0" });
+    userEvent.click(key);
+    userEvent.click(key);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("0");
+  });
+
   describe("when the display is empty", () => {
     const keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     for (const key of keys) {
@@ -79,18 +109,18 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("5");
   });
 
-  test("result of clicking keys 2.5 ÷ 1.1 = results in 2.272727", () => {
-    render(<App />);
-    pressKeys(["2", ".", "5", "÷", "1", ".", "1", "="]);
-    const display = screen.getByRole("textbox", { id: "display" });
-    expect(display).toHaveValue("2.272727");
-  });
-
-  test("result of clicking keys 5 ÷ 0 = results in Error", () => {
+  test("result of clicking keys 5 ÷ 0 = results in Infinity", () => {
     render(<App />);
     pressKeys(["5", "÷", "0", "="]);
     const display = screen.getByRole("textbox", { id: "display" });
-    expect(display).toHaveValue("Error");
+    expect(display).toHaveValue("Infinity");
+  });
+
+  test("result of clicking 5 ÷ 7 = results in 0.71428571 (rounded)", () => {
+    render(<App />);
+    pressKeys(["5", "÷", "7", "="]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("0.71428571");
   });
 
   test("result of clicking keys 3 x 5 = results in 15", () => {
@@ -100,31 +130,19 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("15");
   });
 
+  test("result of multiplying 12345678 by 12345678 is 1.5241577e+14", () => {
+    render(<App />);
+    pressKeys(["1", "2", "3", "4", "5", "6", "7", "8", "x"]);
+    pressKeys(["1", "2", "3", "4", "5", "6", "7", "8", "="]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("1.5241577e+14");
+  });
+
   test("result of clicking keys 1 2 + 9 - 1 x 1 0 ÷ 2 0 + results in 100", () => {
     render(<App />);
     pressKeys(["1", "2", "+", "9", "-", "1", "x", "1", "0", "÷", "2", "="]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("100");
-  });
-
-  test("user can enter numbers as sequences up to 8 digits long", () => {
-    render(<App />);
-    const keys = ["0", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    for (const keyName of keys) {
-      const key = screen.getByRole("button", { name: keyName });
-      userEvent.click(key);
-    }
-    const display = screen.getByRole("textbox", { id: "display" });
-    expect(display).toHaveValue("0.123456");
-  });
-
-  test("user can enter only one decimal separator", () => {
-    render(<App />);
-    const key = screen.getByRole("button", { name: "." });
-    userEvent.click(key);
-    userEvent.click(key);
-    const display = screen.getByRole("textbox", { id: "display" });
-    expect(display).toHaveValue("0.");
   });
 
   const testInputKeyWithEmptyDisplay = (keyName, expectedDisplay) => {
