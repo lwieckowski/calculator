@@ -3,6 +3,7 @@ export function Keypad({
   handleFunctionKey,
   handleInputKey,
   handleOperatorKey,
+  handleEqualsKey,
 }) {
   const keys = [
     { value: "AC", onClick: handleClearKey, className: "key dark-grey" },
@@ -23,7 +24,7 @@ export function Keypad({
     { value: "+", onClick: handleOperatorKey, className: "key orange" },
     { value: "0", onClick: handleInputKey, className: "key light-grey" },
     { value: ".", onClick: handleInputKey, className: "key light-grey" },
-    { value: "=", onClick: handleOperatorKey, className: "key orange" },
+    { value: "=", onClick: handleEqualsKey, className: "key orange" },
   ];
   return (
     <div id="keypad">

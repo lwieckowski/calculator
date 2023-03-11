@@ -4,9 +4,9 @@ import { Display } from "./Display";
 
 export function Calculator() {
   const [isNewEntry, setIsNewEntry] = useState(true);
-  const [storedValue, setStoredValue] = useState(0);
+  const [operand1, setOperand1] = useState(0);
+  const [operand2, setOperand2] = useState(0);
   const [operator, setOperator] = useState(null);
-  const [result, setResult] = useState(null);
   const [display, setDisplay] = useState("0");
   const [fontSize, setFontSize] = useState(64);
   const defaultFontSize = 64;
@@ -17,68 +17,86 @@ export function Calculator() {
   const handleInputKey = (e) => {
     const key = e.target.value;
     setFontSize(defaultFontSize);
-    if (isNewEntry) {
-      setDisplay("0");
-    }
+    console.log(display.length);
     if (isNewEntry || display.length < maxDigits) {
-      setDisplay((display) => {
-        setIsNewEntry(false);
-        if (key === "0" && display === "0") {
-          return display;
-        }
-        if (key === "." && display.includes(key)) {
-          return display;
-        }
-        if (key !== "0" && key !== "." && display === "0") {
-          return key;
-        }
-        return display + key;
-      });
+      if (isNewEntry) {
+        const dis = key !== "." ? key : "0.";
+        setDisplay(dis);
+        setOperand2(Number(dis));
+      } else {
+      const dis = getNewDisplayValue(e.target.value)
+      setDisplay(dis);
+      setOperand2(Number(dis));
+      }
     }
+    setIsNewEntry(false);
   };
+
+  const getNewDisplayValue = (key) => {
+    if (key === "0" && display === "0") {
+      return display;
+    }
+    if (key === "." && display.includes(key)) {
+      return display;
+    }
+    return display + key;
+  }
 
   const handleClearKey = () => {
     setFontSize(defaultFontSize);
     setIsNewEntry(true);
-    setStoredValue(0);
+    setOperand1(0);
+    setOperand2(0);
     setOperator(null);
-    setResult(null);
     setDisplay("0");
   };
 
   const handleOperatorKey = (e) => {
     if (operator == null) {
-      setStoredValue(Number(display));
+      setOperand1(operand2);
+      setOperand2(0);
     } else {
-      const res = compute(storedValue, Number(display), operator);
+      const res = compute(operand1, operand2, operator);
       const dis = res.toPrecision(defaultPrecision).replace(/\.?0+$/, "");
-      setResult(res);
-      setStoredValue(res);
+      setOperand1(res);
+      setOperand2(0);
       setDisplay(dis);
       setFontSize(
         dis.length <= maxDigits ? defaultFontSize : displaySize / dis.length
       );
     }
-    const operatorKey = e.target.value;
-    setOperator(operatorKey);
+    setOperator(e.target.value);
     setIsNewEntry(true);
   };
 
-  const compute = (value1, value2, op) => {
-    switch (op) {
+  const compute = (operand1, operand2, operator) => {
+    switch (operator) {
       case "+":
-        return value1 + value2;
+        return operand1 + operand2;
       case "-":
-        return value1 - value2;
+        return operand1 - operand2;
       case "x":
-        return value1 * value2;
+        return operand1 * operand2;
       case "÷":
-        return value1 / value2;
-      case "=":
-        return result;
+        return operand1 / operand2;
       default:
         break;
     }
+  };
+
+  const handleEqualsKey = () => {
+    if (operator != null) {
+      const res = compute(operand1, operand2, operator);
+      const dis = res.toPrecision(defaultPrecision).replace(/\.?0+$/, "");
+      setOperand1(res);
+      setOperand2(0);
+      setDisplay(dis);
+      setFontSize(
+        dis.length <= maxDigits ? defaultFontSize : displaySize / dis.length
+      );
+      setOperator(null);
+    }
+    setIsNewEntry(true);
   };
 
   const handleFunctionKey = (e) => {
@@ -86,16 +104,18 @@ export function Calculator() {
     let res;
     switch (functionKey) {
       case "%":
-        res = Number(display) * 0.01;
+        res = operator === null ? operand2 * 0.01 : operand1 * operand2 * 0.01;
+        setDisplay(res.toPrecision(defaultPrecision).replace(/\.?0+$/, ""));
+        setOperand2(res);
         break;
       case "±":
         res = -Number(display);
+        setDisplay(res);
+        setOperand2(res);
         break;
       default:
         break;
     }
-    setResult(res);
-    setDisplay(res);
   };
 
   return (
@@ -106,6 +126,7 @@ export function Calculator() {
         handleFunctionKey={handleFunctionKey}
         handleInputKey={handleInputKey}
         handleOperatorKey={handleOperatorKey}
+        handleEqualsKey={handleEqualsKey}
       />
     </div>
   );
