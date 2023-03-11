@@ -1,26 +1,25 @@
-import { useState } from 'react';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
   const [isNewEntry, setIsNewEntry] = useState(true);
-  const [operand, setOperand]= useState(0);
+  const [operand, setOperand] = useState(0);
   const [operator, setOperator] = useState(null);
   const [result, setResult] = useState(null);
   const [display, setDisplay] = useState("0");
 
-
-  const handleNumericKey = (e) => {
-    const key = e.target.name;
+  const handleInputKey = (e) => {
+    const key = e.target.value;
     if (isNewEntry) {
       setDisplay("0");
     }
     if (display.length < 8) {
-      setDisplay(display => {
+      setDisplay((display) => {
         setIsNewEntry(false);
         if (key === "0" && display === "0") {
           return display;
         }
-        if (key === '.' && display.includes(key)) {
+        if (key === "." && display.includes(key)) {
           return display;
         }
         if (key !== "0" && key !== "." && display === "0") {
@@ -28,7 +27,7 @@ function App() {
         }
         return display + key;
       });
-    };
+    }
   };
 
   const handleClearKey = (e) => {
@@ -49,10 +48,10 @@ function App() {
         case "-":
           res = operand - Number(display);
           break;
-        case "×":
+        case "x":
           res = operand * Number(display);
           break;
-        case "/":
+        case "÷":
           res = operand / Number(display);
           break;
         case "=":
@@ -60,17 +59,17 @@ function App() {
       }
       setResult(res);
       setOperand(res);
-      setDisplay(String(res));
+      setDisplay(res === Infinity ? "Error" : String(Number(String(res).substring(0, 8))));
     } else {
       setOperand(Number(display));
     }
-    const operatorKey = e.target.name;
+    const operatorKey = e.target.value;
     setOperator(operatorKey);
     setIsNewEntry(true);
-  }
+  };
 
   const handleFunctionKey = (e) => {
-    const functionKey = e.target.name;
+    const functionKey = e.target.value;
     let res;
     switch (functionKey) {
       case "%":
@@ -80,69 +79,55 @@ function App() {
         res = -Number(display);
         break;
     }
-    console.log(res);
     setResult(res);
     setDisplay(res);
-  }
+  };
 
+  const keys = [
+    { value: "C", onClick: handleClearKey, className: "key dark-grey" },
+    { value: "±", onClick: handleFunctionKey, className: "key dark-grey" },
+    { value: "%", onClick: handleFunctionKey, className: "key dark-grey" },
+    { value: "÷", onClick: handleOperatorKey, className: "key orange" },
+    { value: "7", onClick: handleInputKey, className: "key light-grey" },
+    { value: "8", onClick: handleInputKey, className: "key light-grey" },
+    { value: "9", onClick: handleInputKey, className: "key light-grey" },
+    { value: "x", onClick: handleOperatorKey, className: "key orange" },
+    { value: "4", onClick: handleInputKey, className: "key light-grey" },
+    { value: "5", onClick: handleInputKey, className: "key light-grey" },
+    { value: "6", onClick: handleInputKey, className: "key light-grey" },
+    { value: "-", onClick: handleOperatorKey, className: "key orange" },
+    { value: "1", onClick: handleInputKey, className: "key light-grey" },
+    { value: "2", onClick: handleInputKey, className: "key light-grey" },
+    { value: "3", onClick: handleInputKey, className: "key light-grey" },
+    { value: "+", onClick: handleOperatorKey, className: "key orange" },
+    { value: "0", onClick: handleInputKey, className: "key light-grey" },
+    { value: ".", onClick: handleInputKey, className: "key light-grey" },
+    { value: "=", onClick: handleOperatorKey, className: "key orange" },
+  ];
 
   return (
     <div id="app-container">
       <div>
         <input id="display" disabled value={display}></input>
         <div id="keypad">
-          <FunctionKey name="C" handleClick={handleClearKey}>C</FunctionKey>
-          <FunctionKey name="±" handleClick={handleFunctionKey}>&plusmn;</FunctionKey>
-          <FunctionKey name="%" handleClick={handleFunctionKey}>%</FunctionKey>
-          <OperatorKey name="/" handleClick={handleOperatorKey}>&divide;</OperatorKey>
-          <NumericKey name="7" handleClick={handleNumericKey}>7</NumericKey>
-          <NumericKey name="8" handleClick={handleNumericKey}>8</NumericKey>
-          <NumericKey name="9" handleClick={handleNumericKey}>9</NumericKey>
-          <OperatorKey name="×" handleClick={handleOperatorKey}>&times;</OperatorKey>
-          <NumericKey name="4" handleClick={handleNumericKey}>4</NumericKey>
-          <NumericKey name="5" handleClick={handleNumericKey}>5</NumericKey>
-          <NumericKey name="6" handleClick={handleNumericKey}>6</NumericKey>
-          <OperatorKey name="-" handleClick={handleOperatorKey}>-</OperatorKey>
-          <NumericKey name="1" handleClick={handleNumericKey}>1</NumericKey>
-          <NumericKey name="2" handleClick={handleNumericKey}>2</NumericKey>
-          <NumericKey name="3" handleClick={handleNumericKey}>3</NumericKey>
-          <OperatorKey name="+" handleClick={handleOperatorKey}>+</OperatorKey>
-          <NumericKey name="0" handleClick={handleNumericKey}>0</NumericKey>
-          <NumericKey name="." handleClick={handleNumericKey}>.</NumericKey>
-          <OperatorKey name="=" handleClick={handleOperatorKey}>=</OperatorKey>
+          {keys.map((key) => (
+            <Key
+              value={key.value}
+              onClick={key.onClick}
+              className={key.className}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function OperatorKey({ name, children, handleClick }) {
+function Key({ value, onClick, className }) {
   return (
-    <button
-      className="key orange"
-      name={name}
-      onClick={handleClick}
-    >{children}</button>
-  );
-}
-
-function FunctionKey({ name, children, handleClick }) {
-  return (
-    <button
-      className="key dark-grey"
-      name={name}
-      onClick={handleClick}
-    >{children}</button>
-  );
-}
-
-function NumericKey({ name, children, handleClick }) {
-  return (
-    <button
-      className="key light-grey"
-      name={name}
-      onClick={handleClick}
-    >{children}</button>
+    <button className={className} onClick={onClick} value={value}>
+      {value}
+    </button>
   );
 }
 
