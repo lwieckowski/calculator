@@ -4,19 +4,23 @@ import { Display } from "./Display";
 
 export function Calculator() {
   const [isNewEntry, setIsNewEntry] = useState(true);
-  const [operand, setOperand] = useState(0);
+  const [storedValue, setStoredValue] = useState(0);
   const [operator, setOperator] = useState(null);
   const [result, setResult] = useState(null);
   const [display, setDisplay] = useState("0");
   const [fontSize, setFontSize] = useState(64);
+  const defaultFontSize = 64;
+  const displaySize = 512;
+  const defaultPrecision = 8;
+  const maxDigits = 8;
 
   const handleInputKey = (e) => {
     const key = e.target.value;
-    setFontSize(64);
+    setFontSize(defaultFontSize);
     if (isNewEntry) {
       setDisplay("0");
     }
-    if (isNewEntry || display.length < 8) {
+    if (isNewEntry || display.length < maxDigits) {
       setDisplay((display) => {
         setIsNewEntry(false);
         if (key === "0" && display === "0") {
@@ -34,44 +38,45 @@ export function Calculator() {
   };
 
   const handleClearKey = (e) => {
-    setFontSize(64);
+    setFontSize(defaultFontSize);
     setIsNewEntry(true);
-    setOperand(0);
+    setStoredValue(0);
     setOperator(null);
     setResult(null);
     setDisplay("0");
   };
 
   const handleOperatorKey = (e) => {
-    if (operator != null) {
-      let res;
-      switch (operator) {
-        case "+":
-          res = operand + Number(display);
-          break;
-        case "-":
-          res = operand - Number(display);
-          break;
-        case "x":
-          res = operand * Number(display);
-          break;
-        case "÷":
-          res = operand / Number(display);
-          break;
-        case "=":
-          res = result;
-      }
-      setResult(res);
-      setOperand(res);
-      const resDisplay = res === Infinity ? res : res.toPrecision(8).replace(/\.?0+$/,"")
-      setDisplay(resDisplay);
-      setFontSize(resDisplay.length <= 8 ? 64 : 512 / resDisplay.length);
+    if (operator == null) {
+      setStoredValue(Number(display));
     } else {
-      setOperand(Number(display));
+      const res = compute(storedValue, Number(display), operator);
+      const dis = res.toPrecision(defaultPrecision).replace(/\.?0+$/, "");
+      setResult(res);
+      setStoredValue(res);
+      setDisplay(dis);
+      setFontSize(
+        dis.length <= maxDigits ? defaultFontSize : displaySize / dis.length
+      );
     }
     const operatorKey = e.target.value;
     setOperator(operatorKey);
     setIsNewEntry(true);
+  };
+
+  const compute = (value1, value2, op) => {
+    switch (op) {
+      case "+":
+        return value1 + value2;
+      case "-":
+        return value1 - value2;
+      case "x":
+        return value1 * value2;
+      case "÷":
+        return value1 / value2;
+      case "=":
+        return result;
+    }
   };
 
   const handleFunctionKey = (e) => {
