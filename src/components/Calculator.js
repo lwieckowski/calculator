@@ -76,6 +76,8 @@ export function Calculator() {
         return value1 / value2;
       case "=":
         return result;
+      default:
+        break;
     }
   };
 
@@ -88,6 +90,8 @@ export function Calculator() {
         break;
       case "±":
         res = -Number(display);
+        break;
+      default:
         break;
     }
     setResult(res);
