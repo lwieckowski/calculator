@@ -5,36 +5,27 @@ export function Keypad({
   handleOperatorKey,
   handleEqualsKey,
 }) {
-  const keys = [
-    { value: "AC", onClick: handleClearKey, className: "key dark-grey" },
-    { value: "±", onClick: handleFunctionKey, className: "key dark-grey" },
-    { value: "%", onClick: handleFunctionKey, className: "key dark-grey" },
-    { value: "÷", onClick: handleOperatorKey, className: "key orange" },
-    { value: "7", onClick: handleInputKey, className: "key light-grey" },
-    { value: "8", onClick: handleInputKey, className: "key light-grey" },
-    { value: "9", onClick: handleInputKey, className: "key light-grey" },
-    { value: "x", onClick: handleOperatorKey, className: "key orange" },
-    { value: "4", onClick: handleInputKey, className: "key light-grey" },
-    { value: "5", onClick: handleInputKey, className: "key light-grey" },
-    { value: "6", onClick: handleInputKey, className: "key light-grey" },
-    { value: "-", onClick: handleOperatorKey, className: "key orange" },
-    { value: "1", onClick: handleInputKey, className: "key light-grey" },
-    { value: "2", onClick: handleInputKey, className: "key light-grey" },
-    { value: "3", onClick: handleInputKey, className: "key light-grey" },
-    { value: "+", onClick: handleOperatorKey, className: "key orange" },
-    { value: "0", onClick: handleInputKey, className: "key light-grey" },
-    { value: ".", onClick: handleInputKey, className: "key light-grey" },
-    { value: "=", onClick: handleEqualsKey, className: "key orange" },
-  ];
   return (
     <div id="keypad">
-      {keys.map((key) => (
-        <Key
-          value={key.value}
-          onClick={key.onClick}
-          className={key.className}
-        />
-      ))}
+      <Key value="AC" onClick={handleClearKey} className="key dark-grey" />
+      <Key value="±" onClick={handleFunctionKey} className="key dark-grey" />
+      <Key value="%" onClick={handleFunctionKey} className="key dark-grey" />
+      <Key value="÷" onClick={handleOperatorKey} className="key orange" />
+      <Key value="7" onClick={handleInputKey} className="key light-grey" />
+      <Key value="8" onClick={handleInputKey} className="key light-grey" />
+      <Key value="9" onClick={handleInputKey} className="key light-grey" />
+      <Key value="x" onClick={handleOperatorKey} className="key orange" />
+      <Key value="4" onClick={handleInputKey} className="key light-grey" />
+      <Key value="5" onClick={handleInputKey} className="key light-grey" />
+      <Key value="6" onClick={handleInputKey} className="key light-grey" />
+      <Key value="-" onClick={handleOperatorKey} className="key orange" />
+      <Key value="1" onClick={handleInputKey} className="key light-grey" />
+      <Key value="2" onClick={handleInputKey} className="key light-grey" />
+      <Key value="3" onClick={handleInputKey} className="key light-grey" />
+      <Key value="+" onClick={handleOperatorKey} className="key orange" />
+      <Key value="0" onClick={handleInputKey} className="key light-grey" />
+      <Key value="." onClick={handleInputKey} className="key light-grey" />
+      <Key value="=" onClick={handleEqualsKey} className="key orange" />
     </div>
   );
 }
