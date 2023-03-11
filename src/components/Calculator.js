@@ -37,7 +37,7 @@ export function Calculator() {
     }
   };
 
-  const handleClearKey = (e) => {
+  const handleClearKey = () => {
     setFontSize(defaultFontSize);
     setIsNewEntry(true);
     setStoredValue(0);

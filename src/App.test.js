@@ -27,7 +27,7 @@ describe("Calculator keypad", () => {
       "7",
       "8",
       "9",
-      "C",
+      "AC",
       "±",
       "%",
       "÷",

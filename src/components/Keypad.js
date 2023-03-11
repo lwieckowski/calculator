@@ -5,7 +5,7 @@ export function Keypad({
   handleOperatorKey,
 }) {
   const keys = [
-    { value: "C", onClick: handleClearKey, className: "key dark-grey" },
+    { value: "AC", onClick: handleClearKey, className: "key dark-grey" },
     { value: "±", onClick: handleFunctionKey, className: "key dark-grey" },
     { value: "%", onClick: handleFunctionKey, className: "key dark-grey" },
     { value: "÷", onClick: handleOperatorKey, className: "key orange" },
