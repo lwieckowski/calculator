@@ -45,7 +45,6 @@ describe("Calculator keypad", () => {
 });
 
 describe("Calculator functionality", () => {
-
   test("user can enter numbers as sequences up to 8 digits long", () => {
     render(<App />);
     const keys = ["0", ".", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
