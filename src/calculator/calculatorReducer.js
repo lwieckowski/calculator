@@ -38,6 +38,7 @@ function handleInput(state, action) {
 }
 
 function handleOperator(state, action) {
+  const wipedOperand = action.payload === "+" || action.payload === "-" ? 0 : 1;
   if (state.operator) {
     const result = OPERATORS[state.operator](
       state.operand1,
@@ -48,7 +49,7 @@ function handleOperator(state, action) {
       currentInput: String(result),
       operator: action.payload,
       operand1: result,
-      operand2: 0,
+      operand2: wipedOperand,
       isNewEntry: true,
     };
   } else {
@@ -56,7 +57,7 @@ function handleOperator(state, action) {
       ...state,
       operator: action.payload,
       operand1: state.operand2,
-      operand2: 0,
+      operand2: wipedOperand,
       isNewEntry: true,
     };
   }
@@ -71,9 +72,8 @@ function handleEquals(state) {
     return {
       ...state,
       currentInput: String(result),
-      operator: null,
       operand1: result,
-      operand2: 0,
+      operand2: state.operator === "+" || state.operator === "-" ? 0 : 1,
       isNewEntry: true,
     };
   } else {
