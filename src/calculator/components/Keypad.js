@@ -14,7 +14,7 @@ export function Keypad({
       <Key value="7" onClick={handleInputKey} className="key light-grey" />
       <Key value="8" onClick={handleInputKey} className="key light-grey" />
       <Key value="9" onClick={handleInputKey} className="key light-grey" />
-      <Key value="x" onClick={handleOperatorKey} className="key orange" />
+      <Key value="×" onClick={handleOperatorKey} className="key orange" />
       <Key value="4" onClick={handleInputKey} className="key light-grey" />
       <Key value="5" onClick={handleInputKey} className="key light-grey" />
       <Key value="6" onClick={handleInputKey} className="key light-grey" />

@@ -7,7 +7,7 @@ export const PRECISION = 8;
 export const OPERATORS = {
   "+": (a, b) => a + b,
   "-": (a, b) => a - b,
-  "x": (a, b) => a * b,
+  "×": (a, b) => a * b,
   "÷": (a, b) => a / b,
 };
 

@@ -31,7 +31,7 @@ describe("Calculator keypad", () => {
       "±",
       "%",
       "÷",
-      "x",
+      "×",
       "-",
       "+",
       "=",
@@ -129,24 +129,24 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("0.71428571");
   });
 
-  test("clicking keys 3 x 5 = results in 15", () => {
+  test("clicking keys 3 × 5 = results in 15", () => {
     render(<App />);
-    pressKeys(["3", "x", "5", "="]);
+    pressKeys(["3", "×", "5", "="]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("15");
   });
 
   test("multiplying 12345678 by 12345678 is 1.5241577e+14", () => {
     render(<App />);
-    pressKeys(["1", "2", "3", "4", "5", "6", "7", "8", "x"]);
+    pressKeys(["1", "2", "3", "4", "5", "6", "7", "8", "×"]);
     pressKeys(["1", "2", "3", "4", "5", "6", "7", "8", "="]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("1.5241577e+14");
   });
 
-  test("clicking keys 1 2 + 9 - 1 x 1 0 ÷ 2 0 + results in 100", () => {
+  test("clicking keys 1 2 + 9 - 1 × 1 0 ÷ 2 0 + results in 100", () => {
     render(<App />);
-    pressKeys(["1", "2", "+", "9", "-", "1", "x", "1", "0", "÷", "2", "="]);
+    pressKeys(["1", "2", "+", "9", "-", "1", "×", "1", "0", "÷", "2", "="]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("100");
   });
@@ -165,9 +165,9 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("5");
   });
 
-  test("clicking keys 5 x x x results in 5", () => {
+  test("clicking keys 5 × × × results in 5", () => {
     render(<App />);
-    pressKeys(["5", "x", "x", "x"]);
+    pressKeys(["5", "×", "×", "×"]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("5");
   });
@@ -193,9 +193,9 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("5");
   });
 
-  test("clicking keys 5 x - results in 5", () => {
+  test("clicking keys 5 × - results in 5", () => {
     render(<App />);
-    pressKeys(["5", "x", "-"]);
+    pressKeys(["5", "×", "-"]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("5");
   });
@@ -207,9 +207,9 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("5");
   });
 
-  test("clicking keys 5 x + results in 5", () => {
+  test("clicking keys 5 × + results in 5", () => {
     render(<App />);
-    pressKeys(["5", "x", "+"]);
+    pressKeys(["5", "×", "+"]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("5");
   });
@@ -221,16 +221,16 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("5");
   });
 
-  test("clicking keys 5 ÷ x results in 5", () => {
+  test("clicking keys 5 ÷ × results in 5", () => {
     render(<App />);
-    pressKeys(["5", "÷", "x"]);
+    pressKeys(["5", "÷", "×"]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("5");
   });
 
-  test("clicking keys 5 x ÷ results in 5", () => {
+  test("clicking keys 5 × ÷ results in 5", () => {
     render(<App />);
-    pressKeys(["5", "x", "÷"]);
+    pressKeys(["5", "×", "÷"]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("5");
   });
