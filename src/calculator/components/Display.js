@@ -17,7 +17,7 @@ export function Display({ value }) {
 }
 
 const formatValue = (value) => {
-  if (value === "0.") {
+  if (value.endsWith(".")) {
     return value;
   } else {
     return Number(value)

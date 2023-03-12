@@ -87,6 +87,13 @@ describe("Calculator functionality", () => {
     });
   });
 
+  test("clicking keys 1 . results in 1.", () => {
+    render(<App />);
+    pressKeys(["1", "."]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("1.");
+  });
+
   test("clicking keys 2 + 2 = results in 4", () => {
     render(<App />);
     pressKeys(["2", "+", "2", "="]);
@@ -144,6 +151,27 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("100");
   });
 
+  test("clicking keys 5 + 5 = + 5 = results in 15", () => {
+    render(<App />);
+    pressKeys(["5", "+", "5", "=", "+", "5", "="]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("15");
+  });
+
+  test("clicking keys 5 ÷ ÷ ÷ results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "÷", "÷", "÷"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
+  test("clicking keys 5 x x x results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "x", "x", "x"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
   test("clicking keys 5 + + + results in 5", () => {
     render(<App />);
     pressKeys(["5", "+", "+", "+"]);
@@ -151,9 +179,58 @@ describe("Calculator functionality", () => {
     expect(display).toHaveValue("5");
   });
 
+  test("clicking keys 5 - - - results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "-", "-", "-"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
   test("clicking keys 5 = = = results in 5", () => {
     render(<App />);
     pressKeys(["5", "=", "=", "="]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
+  test("clicking keys 5 x - results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "x", "-"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
+  test("clicking keys 5 ÷ - results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "÷", "-"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
+  test("clicking keys 5 x + results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "x", "+"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
+  test("clicking keys 5 ÷ + results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "÷", "+"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
+  test("clicking keys 5 ÷ x results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "÷", "x"]);
+    const display = screen.getByRole("textbox", { id: "display" });
+    expect(display).toHaveValue("5");
+  });
+
+  test("clicking keys 5 x ÷ results in 5", () => {
+    render(<App />);
+    pressKeys(["5", "x", "÷"]);
     const display = screen.getByRole("textbox", { id: "display" });
     expect(display).toHaveValue("5");
   });
