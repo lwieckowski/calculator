@@ -13,7 +13,7 @@ export function Display({ value }) {
 }
 
 const formatValue = (value) => {
-  if (value == "0.") {
+  if (value === "0.") {
     return value;
   } else {
     return Number(value)
