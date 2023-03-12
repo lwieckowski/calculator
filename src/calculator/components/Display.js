@@ -1,4 +1,8 @@
-import { DEFAULT_FONT_SIZE, DEFAULT_DIGITS, PRECISION } from "../Calculator";
+import {
+  DEFAULT_FONT_SIZE,
+  DEFAULT_DIGITS,
+  PRECISION,
+} from "../CalculatorContext";
 
 export function Display({ value }) {
   const formattedValue = formatValue(value);

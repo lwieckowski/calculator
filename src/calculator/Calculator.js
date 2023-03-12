@@ -4,17 +4,6 @@ import { Display } from "./components/Display";
 import { initialState, CalculatorContext } from "./CalculatorContext";
 import { calculatorReducer } from "./calculatorReducer";
 
-export const DEFAULT_FONT_SIZE = 64;
-export const DEFAULT_DIGITS = 8;
-export const PRECISION = 8;
-
-export const OPERATORS = {
-  "+": (a, b) => a + b,
-  "-": (a, b) => a - b,
-  "x": (a, b) => a * b,
-  "÷": (a, b) => a / b,
-};
-
 export function Calculator() {
   const [state, dispatch] = useReducer(calculatorReducer, initialState);
 
