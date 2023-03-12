@@ -13,6 +13,7 @@ input {
   box-sizing: border-box;
   background-color: #1C191C;
   color: white;
+  text-decoration: none;
   text-align: right; 
   padding-right: 24px;
   width: 320px;
