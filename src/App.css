@@ -62,3 +62,18 @@ input {
 .light-grey {
   background-color: #E0E0E7;
 }
+
+@media only screen and (max-width: 768px) {
+  #display {
+    padding-right: 24px;
+    width: 100vw;
+    height: 37.5vw;
+  }
+  
+  #keypad {
+    width: 100vw;
+    height: 125vw;
+    grid-template-rows: repeat(5, 25vw);
+    grid-template-columns: repeat(4, 25vw);
+  }
+}
