@@ -2,98 +2,69 @@ import { useState } from "react";
 import { Keypad } from "./Keypad";
 import { Display } from "./Display";
 
+export const DEFAULT_FONT_SIZE = 64;
+export const DEFAULT_DIGITS = 8;
+export const PRECISION = 8;
+
+const OPERATORS = {
+  "+": (a, b) => a + b,
+  "-": (a, b) => a - b,
+  x: (a, b) => a * b,
+  "÷": (a, b) => a / b,
+};
+
 export function Calculator() {
-  const [isNewEntry, setIsNewEntry] = useState(true);
   const [operand1, setOperand1] = useState(0);
   const [operand2, setOperand2] = useState(0);
   const [operator, setOperator] = useState(null);
   const [display, setDisplay] = useState("0");
-  const [fontSize, setFontSize] = useState(64);
-  const defaultFontSize = 64;
-  const displaySize = 512;
-  const defaultPrecision = 8;
-  const maxDigits = 8;
+  const [isNewEntry, setIsNewEntry] = useState(true);
 
   const handleInputKey = (e) => {
     const key = e.target.value;
-    setFontSize(defaultFontSize);
-    console.log(display.length);
-    if (isNewEntry || display.length < maxDigits) {
-      if (isNewEntry) {
-        const dis = key !== "." ? key : "0.";
-        setDisplay(dis);
-        setOperand2(Number(dis));
-      } else {
-      const dis = getNewDisplayValue(e.target.value)
-      setDisplay(dis);
-      setOperand2(Number(dis));
-      }
+    const newValue = getNewDisplayValue(key, isNewEntry);
+    if (isNewEntry || display.length < DEFAULT_DIGITS) {
+      setDisplay(newValue);
+      setOperand2(Number(newValue));
+      setIsNewEntry(false);
     }
-    setIsNewEntry(false);
   };
 
-  const getNewDisplayValue = (key) => {
-    if (key === "0" && display === "0") {
-      return display;
+  const getNewDisplayValue = (key, isNewEntry) => {
+    if (isNewEntry) {
+      return key === "." ? "0." : key;
+    } else {
+      return key === "." && display.includes(key) ? display : display + key;
     }
-    if (key === "." && display.includes(key)) {
-      return display;
-    }
-    return display + key;
-  }
+  };
 
   const handleClearKey = () => {
-    setFontSize(defaultFontSize);
-    setIsNewEntry(true);
     setOperand1(0);
     setOperand2(0);
     setOperator(null);
     setDisplay("0");
-  };
-
-  const handleOperatorKey = (e) => {
-    if (operator == null) {
-      setOperand1(operand2);
-      setOperand2(0);
-    } else {
-      const res = compute(operand1, operand2, operator);
-      const dis = res.toPrecision(defaultPrecision).replace(/\.?0+$/, "");
-      setOperand1(res);
-      setOperand2(0);
-      setDisplay(dis);
-      setFontSize(
-        dis.length <= maxDigits ? defaultFontSize : displaySize / dis.length
-      );
-    }
-    setOperator(e.target.value);
     setIsNewEntry(true);
   };
 
-  const compute = (operand1, operand2, operator) => {
-    switch (operator) {
-      case "+":
-        return operand1 + operand2;
-      case "-":
-        return operand1 - operand2;
-      case "x":
-        return operand1 * operand2;
-      case "÷":
-        return operand1 / operand2;
-      default:
-        break;
+  const handleOperatorKey = (e) => {
+    if (operator) {
+      const result = OPERATORS[operator](operand1, operand2);
+      setOperand1(result);
+      setDisplay(result);
+    } else {
+      setOperand1(operand2);
     }
+    setOperator(e.target.value);
+    setOperand2(0);
+    setIsNewEntry(true);
   };
 
   const handleEqualsKey = () => {
-    if (operator != null) {
-      const res = compute(operand1, operand2, operator);
-      const dis = res.toPrecision(defaultPrecision).replace(/\.?0+$/, "");
-      setOperand1(res);
+    if (operator) {
+      const result = OPERATORS[operator](operand1, operand2);
+      setOperand1(result);
       setOperand2(0);
-      setDisplay(dis);
-      setFontSize(
-        dis.length <= maxDigits ? defaultFontSize : displaySize / dis.length
-      );
+      setDisplay(String(result));
       setOperator(null);
     }
     setIsNewEntry(true);
@@ -101,26 +72,18 @@ export function Calculator() {
 
   const handleFunctionKey = (e) => {
     const functionKey = e.target.value;
-    let res;
-    switch (functionKey) {
-      case "%":
-        res = operator === null ? operand2 * 0.01 : operand1 * operand2 * 0.01;
-        setDisplay(res.toPrecision(defaultPrecision).replace(/\.?0+$/, ""));
-        setOperand2(res);
-        break;
-      case "±":
-        res = -Number(display);
-        setDisplay(res);
-        setOperand2(res);
-        break;
-      default:
-        break;
-    }
+    const FUNCTIONS = {
+      "%": () => (operator ? operand1 * operand2 * 0.01 : operand2 * 0.01),
+      "±": () => -Number(display),
+    };
+    const result = FUNCTIONS[functionKey]();
+    setDisplay(String(result));
+    setOperand2(result);
   };
 
   return (
     <div>
-      <Display value={display} size={fontSize} />
+      <Display value={display} />
       <Keypad
         handleClearKey={handleClearKey}
         handleFunctionKey={handleFunctionKey}

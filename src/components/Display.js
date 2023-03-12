@@ -1,6 +1,29 @@
-export function Display({ value, size }) {
-  const style = {
-    fontSize: `${String(size)}px`,
-  };
-  return <input id="display" disabled value={value} style={style}></input>;
+import { DEFAULT_FONT_SIZE, DEFAULT_DIGITS, PRECISION } from "./Calculator";
+
+export function Display({ value }) {
+  const formattedValue = formatValue(value);
+  return (
+    <input
+      id="display"
+      disabled
+      value={formattedValue}
+      style={{ fontSize: `${calculateFontSize(formattedValue)}px` }}
+    ></input>
+  );
 }
+
+const formatValue = (value) => {
+  if (value == "0.") {
+    return value;
+  } else {
+    return Number(value)
+      .toPrecision(PRECISION)
+      .replace(/\.?0+$/, "");
+  }
+};
+
+const calculateFontSize = (value) => {
+  return value.length <= DEFAULT_DIGITS
+    ? DEFAULT_FONT_SIZE
+    : (DEFAULT_FONT_SIZE * DEFAULT_DIGITS) / value.length;
+};
