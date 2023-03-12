@@ -21,6 +21,7 @@ input {
 
 #keypad {
   color: black;
+  text-decoration: none;
   background-color: brown;
   width: 320px;
   height: 400px;
